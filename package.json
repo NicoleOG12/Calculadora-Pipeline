@@ -1,0 +1,11 @@
+{
+  "name": "pipeline-calculadora",
+  "version": "1.0.0",
+  "description": "Calculadora JS com testes Jest",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

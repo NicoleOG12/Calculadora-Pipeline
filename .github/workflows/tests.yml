@@ -1,0 +1,87 @@
+name: Testes Automatizados
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-soma:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Testar soma
+        run: |
+          node -e "
+            const { add } = require('./calculator');
+            const result = add(2, 3);
+            if (result !== 5) throw new Error('FALHOU: esperado 5, recebido ' + result);
+            console.log('PASSOU: 2 + 3 = ' + result);
+          "
+
+  test-subtracao:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Testar subtração
+        run: |
+          node -e "
+            const { subtract } = require('./calculator');
+            const result = subtract(10, 4);
+            if (result !== 6) throw new Error('FALHOU: esperado 6, recebido ' + result);
+            console.log('PASSOU: 10 - 4 = ' + result);
+          "
+
+  test-multiplicacao:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Testar multiplicação
+        run: |
+          node -e "
+            const { multiply } = require('./calculator');
+            const result = multiply(3, 4);
+            if (result !== 12) throw new Error('FALHOU: esperado 12, recebido ' + result);
+            console.log('PASSOU: 3 * 4 = ' + result);
+          "
+
+  test-divisao:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Testar divisão
+        run: |
+          node -e "
+            const { divide } = require('./calculator');
+            const result = divide(10, 2);
+            if (result !== 5) throw new Error('FALHOU: esperado 5, recebido ' + result);
+            console.log('PASSOU: 10 / 2 = ' + result);
+          "
