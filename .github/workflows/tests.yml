@@ -1,5 +1,4 @@
 name: Testes Automatizados
-
 on:
   push:
     branches:
@@ -17,14 +16,11 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Instalar dependências
+        run: npm install
+
       - name: Testar soma
-        run: |
-          node -e "
-            const { add } = require('./calculator');
-            const result = add(2, 3);
-            if (result !== 5) throw new Error('FALHOU: esperado 5, recebido ' + result);
-            console.log('PASSOU: 2 + 3 = ' + result);
-          "
+        run: npx jest --testNamePattern="soma"
 
   test-subtracao:
     runs-on: ubuntu-latest
@@ -37,14 +33,11 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Instalar dependências
+        run: npm install
+
       - name: Testar subtração
-        run: |
-          node -e "
-            const { subtract } = require('./calculator');
-            const result = subtract(10, 4);
-            if (result !== 6) throw new Error('FALHOU: esperado 6, recebido ' + result);
-            console.log('PASSOU: 10 - 4 = ' + result);
-          "
+        run: npx jest --testNamePattern="subtração"
 
   test-multiplicacao:
     runs-on: ubuntu-latest
@@ -57,14 +50,11 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Instalar dependências
+        run: npm install
+
       - name: Testar multiplicação
-        run: |
-          node -e "
-            const { multiply } = require('./calculator');
-            const result = multiply(3, 4);
-            if (result !== 12) throw new Error('FALHOU: esperado 12, recebido ' + result);
-            console.log('PASSOU: 3 * 4 = ' + result);
-          "
+        run: npx jest --testNamePattern="multiplicação"
 
   test-divisao:
     runs-on: ubuntu-latest
@@ -77,11 +67,8 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Instalar dependências
+        run: npm install
+
       - name: Testar divisão
-        run: |
-          node -e "
-            const { divide } = require('./calculator');
-            const result = divide(10, 2);
-            if (result !== 5) throw new Error('FALHOU: esperado 5, recebido ' + result);
-            console.log('PASSOU: 10 / 2 = ' + result);
-          "
+        run: npx jest --testNamePattern="divis"
