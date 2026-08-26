@@ -1,4 +1,5 @@
 let currentExpression = '';
+
 let shouldResetDisplay = false;
 
 const expressionEl = document.getElementById('expression');
@@ -15,19 +16,26 @@ function appendNumber(num) {
     currentExpression = '';
     shouldResetDisplay = false;
   }
+
   currentExpression += num;
   resultEl.textContent = currentExpression;
+
   updateDisplay();
 }
 
 function appendOperator(op) {
   shouldResetDisplay = false;
+
   const last = currentExpression.slice(-1);
+
   if (['+', '-', '*', '/', '%'].includes(last)) {
     currentExpression = currentExpression.slice(0, -1);
   }
+
   currentExpression += op;
+
   updateDisplay();
+
   resultEl.textContent = currentExpression
     .replace(/\*/g, '×')
     .replace(/\//g, '÷');
@@ -38,12 +46,20 @@ function appendDecimal() {
     currentExpression = '0';
     shouldResetDisplay = false;
   }
-  const parts = currentExpression.split(/[\+\-\*\/]/);
+
+  const parts = currentExpression.split(/[+\-*/]/);
   const lastPart = parts[parts.length - 1];
+
   if (lastPart.includes('.')) return;
-  if (lastPart === '') currentExpression += '0';
+
+  if (lastPart === '') {
+    currentExpression += '0';
+  }
+
   currentExpression += '.';
+
   resultEl.textContent = currentExpression;
+
   updateDisplay();
 }
 
@@ -59,8 +75,11 @@ function deleteLast() {
     clearAll();
     return;
   }
+
   currentExpression = currentExpression.slice(0, -1);
+
   resultEl.textContent = currentExpression || '0';
+
   updateDisplay();
 }
 
@@ -69,7 +88,10 @@ function calculate() {
 
   try {
     const expression = currentExpression;
-    const result = Function('"use strict"; return (' + expression + ')')();
+
+    const result = Function(
+      '"use strict"; return (' + expression + ')'
+    )();
 
     if (!isFinite(result)) {
       resultEl.textContent = 'Erro';
@@ -78,11 +100,13 @@ function calculate() {
       return;
     }
 
-    expressionEl.textContent = expression
-      .replace(/\*/g, '×')
-      .replace(/\//g, '÷') + ' =';
+    expressionEl.textContent =
+      expression.replace(/\*/g, '×').replace(/\//g, '÷') + ' =';
+
     resultEl.textContent = parseFloat(result.toFixed(10));
+
     currentExpression = String(parseFloat(result.toFixed(10)));
+
     shouldResetDisplay = true;
   } catch {
     resultEl.textContent = 'Erro';
@@ -91,14 +115,26 @@ function calculate() {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
-  else if (e.key === '+') appendOperator('+');
-  else if (e.key === '-') appendOperator('-');
-  else if (e.key === '*') appendOperator('*');
-  else if (e.key === '/') { e.preventDefault(); appendOperator('/'); }
-  else if (e.key === '%') appendOperator('%');
-  else if (e.key === '.') appendDecimal();
-  else if (e.key === 'Enter' || e.key === '=') calculate();
-  else if (e.key === 'Backspace') deleteLast();
-  else if (e.key === 'Escape') clearAll();
+  if (e.key >= '0' && e.key <= '9') {
+    appendNumber(e.key);
+  } else if (e.key === '+') {
+    appendOperator('+');
+  } else if (e.key === '-') {
+    appendOperator('-');
+  } else if (e.key === '*') {
+    appendOperator('*');
+  } else if (e.key === '/') {
+    e.preventDefault();
+    appendOperator('/');
+  } else if (e.key === '%') {
+    appendOperator('%');
+  } else if (e.key === '.') {
+    appendDecimal();
+  } else if (e.key === 'Enter' || e.key === '=') {
+    calculate();
+  } else if (e.key === 'Backspace') {
+    deleteLast();
+  } else if (e.key === 'Escape') {
+    clearAll();
+  }
 });
