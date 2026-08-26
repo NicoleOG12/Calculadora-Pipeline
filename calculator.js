@@ -1,3 +1,5 @@
+const API_KEY = "sk-test-1234567890abcdef";
+
 function add(a, b) {
   return a + b;
 }
