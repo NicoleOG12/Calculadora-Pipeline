@@ -6,7 +6,7 @@ const {
 } = require('./calculator');
 
 test('deve realizar uma soma corretamente', () => {
-  expect(add(2, 3)).toBe(5);
+  expect(add(2, 3)).toBe(10);
   expect(add(10, 20)).toBe(30);
   expect(add(100, 50)).toBe(150);
 });
