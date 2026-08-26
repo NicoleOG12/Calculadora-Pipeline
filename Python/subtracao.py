@@ -1,2 +1,2 @@
-def test_subtracao(a, b):
+def subtracao(a, b):
     return a - b

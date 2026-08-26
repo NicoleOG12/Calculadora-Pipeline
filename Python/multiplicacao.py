@@ -1,2 +1,2 @@
-def test_multiplicacao(a, b):
+def multiplicacao(a, b):
     return a * b

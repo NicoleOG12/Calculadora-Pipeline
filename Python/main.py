@@ -3,8 +3,10 @@ from subtracao import subtracao
 from divisao import divisao
 from multiplicacao import multiplicacao
 
+
 ROSA = "\033[95m"
 RESET = "\033[0m"
+
 
 print(f"{ROSA}=== CALCULADORA ==={RESET}")
 
@@ -26,7 +28,11 @@ elif opcao == "2":
     resultado = subtracao(num1, num2)
 
 elif opcao == "3":
-    resultado = divisao(num1, num2)
+    try:
+        resultado = divisao(num1, num2)
+    except ValueError as erro:
+        print(f"{ROSA}{erro}{RESET}")
+        exit()
 
 elif opcao == "4":
     resultado = multiplicacao(num1, num2)
@@ -34,5 +40,6 @@ elif opcao == "4":
 else:
     print(f"{ROSA}Opção inválida!{RESET}")
     exit()
+
 
 print(f"\n{ROSA}Resultado: {resultado}{RESET}")
