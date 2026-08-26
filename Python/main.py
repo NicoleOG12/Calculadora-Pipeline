@@ -1,7 +1,7 @@
-from soma import soma
-from subtracao import subtracao
-from divisao import divisao
-from multiplicacao import multiplicacao
+from Python.test_soma import soma
+from Python.test_subtracao import subtracao
+from Python.test_divisao import divisao
+from Python.test_multiplicacao import multiplicacao
 
 ROSA = "\033[95m"
 RESET = "\033[0m"
