@@ -13,7 +13,11 @@ jobs:
 
   lint:
     name: Análise de Código
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-26.04, ubuntu-22.04, ubuntu-20.04]
+        node-version: [20, 20.1, 20.2]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -22,8 +26,9 @@ jobs:
       - name: Configurar Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
         run: npm ci
@@ -31,10 +36,13 @@ jobs:
       - name: Executar Linter
         run: npm run lint
 
-
   tests:
     name: Testes Unitários
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-26.04, ubuntu-22.04, ubuntu-20.04]
+        node-version: [20, 20.1, 20.2]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -43,8 +51,9 @@ jobs:
       - name: Configurar Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
         run: npm ci
@@ -55,7 +64,11 @@ jobs:
 
   coverage:
     name: Cobertura de Código
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-26.04, ubuntu-22.04, ubuntu-20.04]
+        node-version: [20, 20.1, 20.2]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -64,8 +77,9 @@ jobs:
       - name: Configurar Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
         run: npm ci
@@ -76,7 +90,11 @@ jobs:
 
   security:
     name: Análise de Segurança
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-26.04, ubuntu-22.04, ubuntu-20.04]
+        node-version: [20, 20.1, 20.2]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -85,8 +103,9 @@ jobs:
       - name: Configurar Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
         run: npm ci
