@@ -40,7 +40,7 @@ jobs:
     name: Testes Unitários
     strategy:
       matrix:
-        os: [ubuntu-26.04, ubuntu-22.04, ubuntu-20.04]
+        os: [ubuntu-26.04, ubuntu-24.04, ubuntu-22.04]
         node-version: [20, 20.1, 20.2]
     runs-on: ${{ matrix.os }}
 
