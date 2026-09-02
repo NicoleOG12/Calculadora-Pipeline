@@ -36,6 +36,11 @@ jobs:
       - name: Executar Linter
         run: npm run lint
 
+      - name: Análise com SonarQube
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   tests:
     name: Testes Unitários
     strategy:
@@ -61,6 +66,10 @@ jobs:
       - name: Executar testes
         run: npm test
 
+      - name: Análise com SonarQube
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   coverage:
     name: Cobertura de Código
@@ -86,6 +95,11 @@ jobs:
 
       - name: Verificar cobertura
         run: npm run coverage
+        
+      - name: Análise com SonarQube
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 
   security:
@@ -117,3 +131,8 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Análise com SonarQube
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
