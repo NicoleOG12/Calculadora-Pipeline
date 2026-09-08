@@ -14,10 +14,12 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci
 
       - name: Testar soma
         run: npx jest --testNamePattern="soma"
@@ -31,10 +33,12 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci
 
       - name: Testar subtração
         run: npx jest --testNamePattern="subtração"
@@ -48,10 +52,12 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci
 
       - name: Testar multiplicação
         run: npx jest --testNamePattern="multiplicação"
@@ -65,10 +71,12 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci
 
       - name: Testar divisão
         run: npx jest --testNamePattern="divis"

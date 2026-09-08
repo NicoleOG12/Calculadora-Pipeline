@@ -1,0 +1,5 @@
+[allowlist]
+  description = "Ignorar chave de projeto SonarQube (não é segredo sensível)"
+  paths = [
+    "sonar-project.properties"
+  ]

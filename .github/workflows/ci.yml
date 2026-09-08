@@ -15,8 +15,8 @@ jobs:
     name: Análise de Código
     strategy:
       matrix:
-        os: [ubuntu-26.04, ubuntu-24.04, ubuntu-22.04]
-        node-version: [20, 20.1, 20.2]
+        os: [ubuntu-24.04, ubuntu-22.04]
+        node-version: [20, 22, 24]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -36,17 +36,12 @@ jobs:
       - name: Executar Linter
         run: npm run lint
 
-      - name: Análise com SonarQube
-        uses: SonarSource/sonarqube-scan-action@v7
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   tests:
     name: Testes Unitários
     strategy:
       matrix:
-        os: [ubuntu-26.04, ubuntu-24.04, ubuntu-22.04]
-        node-version: [20, 20.1, 20.2]
+        os: [ubuntu-24.04, ubuntu-22.04]
+        node-version: [20, 22, 24]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -66,17 +61,12 @@ jobs:
       - name: Executar testes
         run: npm test
 
-      - name: Análise com SonarQube
-        uses: SonarSource/sonarqube-scan-action@v7
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   coverage:
     name: Cobertura de Código
     strategy:
       matrix:
-        os: [ubuntu-26.04, ubuntu-24.04, ubuntu-22.04]
-        node-version: [20, 20.1, 20.2]
+        os: [ubuntu-24.04, ubuntu-22.04]
+        node-version: [20, 22, 24]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -95,20 +85,10 @@ jobs:
 
       - name: Verificar cobertura
         run: npm run coverage
-        
-      - name: Análise com SonarQube
-        uses: SonarSource/sonarqube-scan-action@v7
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
 
   security:
     name: Análise de Segurança
-    strategy:
-      matrix:
-        os: [ubuntu-26.04, ubuntu-24.04, ubuntu-22.04]
-        node-version: [20, 20.1, 20.2]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -117,7 +97,7 @@ jobs:
       - name: Configurar Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
           cache: npm
           cache-dependency-path: package-lock.json
 
@@ -131,7 +111,31 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
+  sonarqube:
+    name: Análise SonarQube
+    runs-on: ubuntu-24.04
+    needs: [lint, tests, coverage]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar relatório de cobertura
+        run: npm run coverage
+
       - name: Análise com SonarQube
         uses: SonarSource/sonarqube-scan-action@v7
         env:
