@@ -11,6 +11,35 @@ on:
 
 jobs:
 
+  build:
+    name: Build do Projeto
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar pacote ZIP do build
+        run: |
+          zip -r calculadora.zip index.html style.css script.js calculator.js
+
+      - name: Fazer upload do artefato ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculadora-zip
+          path: calculadora.zip
+          retention-days: 7
+
   lint:
     name: Análise de Código
     strategy:
@@ -38,6 +67,7 @@ jobs:
 
   tests:
     name: Testes Unitários
+    needs: build
     strategy:
       matrix:
         os: [ubuntu-24.04, ubuntu-22.04]
@@ -47,6 +77,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Baixar artefato ZIP
+        uses: actions/download-artifact@v4
+        with:
+          name: calculadora-zip
 
       - name: Configurar Node
         uses: actions/setup-node@v4
